@@ -80,20 +80,6 @@ class _ServicesCarouselWidgetState extends State<ServicesCarouselWidget> {
   @override
   void initState() {
     super.initState();
-    Timer _timer;
-    _timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (_currentSlide < servicesList.length / 2) {
-        _currentSlide++;
-      } else {
-        _currentSlide = 0;
-      }
-
-      // _slideController.animateTo(
-      //   1,
-      //   duration: Duration(milliseconds: 350),
-      //   curve: Curves.linear,
-      // );
-    });
   }
 
   @override

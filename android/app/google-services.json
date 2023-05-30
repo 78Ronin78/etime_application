@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "969476456654",
+    "project_id": "etime-application",
+    "storage_bucket": "etime-application.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:969476456654:android:48ba21c61b92a5968a109f",
+        "android_client_info": {
+          "package_name": "com.etime_application.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6cFr2uuRr1jXT769W5Cu-Ldzf-sWC6G0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

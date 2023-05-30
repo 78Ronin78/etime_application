@@ -191,43 +191,32 @@ class _ContactsScreenState extends State<ContactsScreen> {
                   ),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Container(
-                      margin: EdgeInsets.only(top: 15, bottom: 15.0),
-                      height: 55,
-                      width: MediaQuery.of(context).size.width - 36,
-                      child: Card(
-                        elevation: 1,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            topLeft: Radius.circular(25),
-                            bottomLeft: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                          color: Color.fromARGB(255, 249, 22, 112),
                         ),
-                        color: Color.fromARGB(255, 249, 22, 112),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              CupertinoIcons.phone,
-                              color: Colors.white,
-                              size: 25,
-                            ),
-                            TextButton(
-                                onPressed: () async {
-                                  final Uri launchUri = Uri(
-                                      scheme: 'tel', path: '8(908)652-77-78');
-                                  await launch(launchUri.toString());
-                                },
-                                child: Text(
-                                  'Позвонить',
-                                  style: TextStyle(
-                                      fontSize: 13, color: Colors.white),
-                                )),
-                          ],
-                        ),
-                      ),
-                    )
+                        margin: EdgeInsets.only(top: 20),
+                        height: 56,
+                        width: MediaQuery.of(context).size.width,
+                        child: TextButton(
+                            onPressed: () async {
+                              final Uri launchUri =
+                                  Uri(scheme: 'tel', path: '8(908)652-77-78');
+                              await launch(launchUri.toString());
+                            },
+                            child: Center(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: Container(),
+                                  ),
+                                  Text('Позвонить',
+                                      style: TextStyle(color: Colors.white))
+                                ],
+                              ),
+                            ))),
                   ])
                 ],
               ),

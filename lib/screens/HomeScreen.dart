@@ -1,4 +1,4 @@
-import 'package:etime_application/widgets/GoodsCarouselWidget.dart';
+import 'package:etime_application/widgets/ProductsCarouselWidget.dart';
 import 'package:etime_application/widgets/ServicesCarouselWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           color: Color.fromARGB(255, 249, 22, 112)),
                     ),
                   ),
-                  Container(height: 650, child: GoodsCarouselWidget()),
+                  Container(height: 650, child: ProductsCarouselWidget()),
                 ],
               ),
             ),
