@@ -51,7 +51,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
               Icon(
                 _iconDataList[index],
                 //здесь меняется цвет иконок нижнего меню
-                color: Colors.deepPurple[900],
+                color: Color.fromARGB(255, 20, 12, 69),
                 size: 30.0,
               ),
               //ImageIcon(_iconImageData[index].image),
@@ -60,7 +60,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                   ? Container(
                       height: 2,
                       width: 15,
-                      color: Colors.deepPurple[900],
+                      color: Color.fromARGB(255, 249, 22, 112),
                     )
                   : SizedBox(),
               Text(_menuTitle[index],
@@ -79,7 +79,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         elevation: 0,
-        backgroundColor: Colors.deepPurple[900],
+        backgroundColor: Color.fromARGB(255, 20, 12, 69),
         onPressed: () {
           Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => BonusesCardScreen()));

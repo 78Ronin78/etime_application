@@ -55,11 +55,6 @@ class _GoodsCarouselWidgetState extends State<GoodsCarouselWidget> {
         article: '150',
         image: 'assets/goods/9.jpg',
         price: '10000 ₽'),
-    GoodsModel(
-        title: 'Час игры в виртуальной реальности',
-        article: 'vr',
-        image: 'assets/goods/10.jpg',
-        price: '200 ₽'),
   ];
 
   @override

@@ -14,8 +14,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors
-            .deepPurple[900], //Заменяет цвет Статусбара при запуске приложения
+        statusBarColor: Color.fromARGB(
+            255, 10, 13, 66), //Заменяет цвет Статусбара при запуске приложения
         statusBarIconBrightness: Brightness.light));
     super.initState();
   }
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 maxLines: 3,
               ),
               centerTitle: true,
-              backgroundColor: Colors.deepPurple[900],
+              backgroundColor: Color.fromARGB(255, 10, 13, 66),
               automaticallyImplyLeading: false,
               pinned: true,
               snap: false,
@@ -66,8 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Услуги',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 249, 22, 112),
+                      ),
                     ),
                   ),
                   Container(height: 160, child: ServicesCarouselWidget()),
@@ -75,8 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Товары',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 249, 22, 112)),
                     ),
                   ),
                   Container(height: 650, child: GoodsCarouselWidget()),

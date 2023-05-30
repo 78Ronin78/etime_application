@@ -37,14 +37,17 @@ dependencies:
   cupertino_icons: ^1.0.2
   animated_bottom_navigation_bar: 0.3.2
   flutter_launcher_icons: ^0.9.3
+  yandex_mapkit: ^3.2.0
+  url_launcher: ^6.0.17
+  photo_view: ^0.14.0
 
   # For change applications icons
 flutter_icons:
-  image_path: "assets/applogo.jpg" 
+  image_path: "assets/logo/applogo.jpg" 
   android: true
   ios: true
-  adaptive_icon_background: "assets/applogo.png"
-  adaptive_icon_foreground: "assets/applogo.png"
+  adaptive_icon_background: "assets/logo/applogo_background.png"
+  adaptive_icon_foreground: "assets/logo/applogo_foreground.png"
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,8 @@ flutter:
   assets:
     - assets/
     - assets/goods/
+    - assets/gallery/
+    - assets/offers/
   
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
