@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etime_application/helpers/firebase_messaging.dart';
 import 'package:etime_application/models/profile_model.dart';
 import 'package:etime_application/repository/firestore_service.dart';
+import 'package:etime_application/screens/RegistrationScreen.dart';
 import 'package:etime_application/screens/SplashScreen.dart';
 import 'package:etime_application/widgets/AuthForm.dart';
 import 'package:etime_application/widgets/CardWidget.dart';
@@ -13,10 +14,10 @@ class BonusesCardScreen extends StatefulWidget {
   const BonusesCardScreen({super.key});
 
   @override
-  State<BonusesCardScreen> createState() => _BonusesCardScreenState();
+  State<BonusesCardScreen> createState() => BonusesCardScreenState();
 }
 
-class _BonusesCardScreenState extends State<BonusesCardScreen>
+class BonusesCardScreenState extends State<BonusesCardScreen>
     with WidgetsBindingObserver {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final firebaseDB = FirebaseFirestore.instance;
@@ -71,6 +72,7 @@ class _BonusesCardScreenState extends State<BonusesCardScreen>
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+            //key: _scaffoldKey,
             body: FutureBuilder(
                 future: Firebase.initializeApp(),
                 builder: (context, snapshot) {
@@ -101,7 +103,9 @@ class _BonusesCardScreenState extends State<BonusesCardScreen>
 
                   return Scaffold(
                     body: Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                          backgroundColor: Color.fromARGB(255, 249, 22, 112),
+                          color: Color.fromARGB(255, 249, 22, 112)),
                     ),
                   );
                 })));

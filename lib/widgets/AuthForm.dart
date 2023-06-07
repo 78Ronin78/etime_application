@@ -1,5 +1,7 @@
 import 'package:etime_application/helpers/size_config.dart';
 import 'package:etime_application/repository/firebase_auth.dart';
+import 'package:etime_application/screens/RegistrationScreen.dart';
+import 'package:etime_application/widgets/BottomNavigationWidget.dart';
 import 'package:etime_application/widgets/custom_snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
@@ -56,7 +58,12 @@ class _AuthFormState extends State<AuthForm> {
             .createUserWithEmailAndPassword(
                 email: _regEmail, password: _regPassword)
             .then((value) {
-          Navigator.pushNamed(context, 'registrationScreen');
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => RegistrationScreen(),
+            ),
+          );
+          //Navigator.pushNamed(context, 'registrationScreen');
         });
       } on FirebaseAuthException catch (e) {
         if (e.code == 'weak-password') {
@@ -109,23 +116,36 @@ class _AuthFormState extends State<AuthForm> {
   void _validateAuth() async {
     final FormState? form = _formKey.currentState;
     if (_formKey.currentState?.validate() != null) {
-      CustomSnackBar(
-        context,
-        const Text('Выполняется вход, пожалуйста подождите'),
-        Color.fromARGB(255, 10, 13, 66),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Выполняется авторизация, пожалуйста подождите')));
+      // CustomSnackBar(
+      //   context,
+      //   const Text('Выполняется авторизация, пожалуйста подождите'),
+      //   Color.fromARGB(255, 10, 13, 66),
+      // );
       form?.save();
       try {
-        bool result = await fbAuth.auth(_email, _password);
+        bool result = await fbAuth.auth(_email, _password, context);
         if (result) {
           print('Document exists on the database');
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => BottomNavigationWidget(),
+          //   ),
+          // );
           Navigator.pushNamedAndRemoveUntil(
               context, 'tabNavigator', (Route<dynamic> route) => false);
         } else {
+          // Navigator.of(context).push(
+          //   MaterialPageRoute(
+          //     builder: (context) => RegistrationScreen(),
+          //   ),
+          // );
           Navigator.pushNamed(context, 'registrationScreen');
         }
       } on Exception catch (e) {
         print(e);
+
         CustomSnackBar(
           context,
           Text(e.toString()),
@@ -150,7 +170,11 @@ class _AuthFormState extends State<AuthForm> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Вход',
+              'Авторизация',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
             InkWell(
               onTap: () {
@@ -187,15 +211,13 @@ class _AuthFormState extends State<AuthForm> {
           padding: EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            color: Colors.white,
+            //color: Colors.white,
           ),
           child: Form(
             key: _formKey,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Электронная почта',
-              ),
+              Text('Электронная почта', style: TextStyle(color: Colors.white)),
               SizedBox(
                 height: 15,
               ),
@@ -203,39 +225,40 @@ class _AuthFormState extends State<AuthForm> {
                 onSaved: (input) {
                   _email = input!;
                 },
+                style: TextStyle(color: Colors.white),
                 validator: emailValidator,
                 decoration: InputDecoration(
-                  //errorStyle: validateText,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  prefixIcon: Container(
-                    transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-                    // child: SvgPicture.asset(
-                    //   'assets/svg/mail.svg',
-                    //   fit: BoxFit.scaleDown,
-                    //   width: 15,
-                    //   height: 12,
-                    // ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  hintText: 'Example@mail.com',
-                  //hintStyle: hintText
-                ),
+                    //errorStyle: validateText,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    prefixIcon: Container(
+                      transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+                      child: SvgPicture.asset(
+                        'assets/svg/mail.svg',
+                        fit: BoxFit.scaleDown,
+                        width: 15,
+                        height: 12,
+                      ),
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    hintText: 'Example@mail.com',
+                    hintStyle: TextStyle(color: Colors.grey[600])),
               ),
               SizedBox(
                 height: 25,
               ),
-              Text('Пароль'),
+              Text('Пароль', style: TextStyle(color: Colors.white)),
               SizedBox(
                 height: 15,
               ),
               TextFormField(
                 obscureText: _obscurePassword,
+                style: TextStyle(color: Colors.white),
                 onSaved: (input) => _password = input!,
                 validator: (input) {
                   if (input == null) {
@@ -249,42 +272,41 @@ class _AuthFormState extends State<AuthForm> {
                   }
                 },
                 decoration: InputDecoration(
-                  //errorStyle: validateText,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  suffixIcon: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _obscurePassword = !_obscurePassword;
-                        });
-                      },
-                      child: SvgPicture.asset('assets/svg/eye.svg',
-                          width: 15, height: 15, fit: BoxFit.scaleDown)),
-                  prefixIcon: Container(
-                    transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-                    child: SvgPicture.asset(
-                      'assets/svg/key.svg',
-                      fit: BoxFit.scaleDown,
-                      width: 15,
-                      height: 12,
+                    //errorStyle: validateText,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword;
+                          });
+                        },
+                        child: SvgPicture.asset('assets/svg/eye.svg',
+                            width: 15, height: 15, fit: BoxFit.scaleDown)),
+                    prefixIcon: Container(
+                      transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+                      child: SvgPicture.asset(
+                        'assets/svg/key.svg',
+                        fit: BoxFit.scaleDown,
+                        width: 15,
+                        height: 12,
+                      ),
                     ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  hintText: 'Введите пароль',
-                  //hintStyle: hintText
-                ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    hintText: 'Введите пароль',
+                    hintStyle: TextStyle(color: Colors.grey[600])),
               ),
               SizedBox(
                 height: 25.0,
               ),
               Text.rich(TextSpan(
                   text: 'Нажимая кнопку "Войти" вы подтверждаете согласие с  ',
-                  style: TextStyle(fontSize: 16, color: Colors.black),
+                  style: TextStyle(fontSize: 16, color: Colors.white),
                   children: <TextSpan>[
                     TextSpan(
                         text: 'Условиями пользования',
@@ -299,7 +321,7 @@ class _AuthFormState extends State<AuthForm> {
                           }),
                     TextSpan(
                         text: ' и ',
-                        style: TextStyle(fontSize: 18, color: Colors.black),
+                        style: TextStyle(fontSize: 18, color: Colors.white),
                         children: <TextSpan>[
                           TextSpan(
                               text: 'Политикой конфиденциальности',
@@ -316,7 +338,29 @@ class _AuthFormState extends State<AuthForm> {
               SizedBox(
                 height: 25.0,
               ),
-              TextButton(onPressed: _validateAuth, child: Text('Войти')),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    color: Color.fromARGB(255, 249, 22, 112),
+                  ),
+                  margin: EdgeInsets.only(top: 20),
+                  height: 56,
+                  width: MediaQuery.of(context).size.width,
+                  child: TextButton(
+                      onPressed: _validateAuth,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Container(),
+                            ),
+                            Text('Авторизоваться',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                      ))),
               SizedBox(
                 height: 14,
               ),
@@ -333,17 +377,6 @@ class _AuthFormState extends State<AuthForm> {
                   //style: title3.copyWith(fontSize: 16),
                 ),
               )),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 1,
-                color: Color(0xFFE7EBF2),
-              ),
-              SizedBox(
-                height: 20,
-              ),
             ]),
           ),
         ),
@@ -359,7 +392,7 @@ class _AuthFormState extends State<AuthForm> {
           children: [
             Text(
               'Регистрация',
-              // style: title,
+              style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             InkWell(
               onTap: () {
@@ -371,7 +404,7 @@ class _AuthFormState extends State<AuthForm> {
               child: Row(
                 children: [
                   Text(
-                    'Вход',
+                    'Авторизация',
                     style: TextStyle(color: Colors.white),
                   ),
                   SizedBox(
@@ -395,15 +428,13 @@ class _AuthFormState extends State<AuthForm> {
           padding: EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 20),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
-            color: Colors.white,
+            //color: Colors.white,
           ),
           child: Form(
             key: _formKeyRegister,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                'Электронная почта',
-              ),
+              Text('Электронная почта', style: TextStyle(color: Colors.white)),
               SizedBox(
                 height: 15,
               ),
@@ -411,41 +442,40 @@ class _AuthFormState extends State<AuthForm> {
                 onSaved: (input) {
                   _regEmail = input!;
                 },
+                style: TextStyle(color: Colors.white),
                 validator: emailValidator,
                 decoration: InputDecoration(
-                  //errorStyle: validateText,
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  prefixIcon: Container(
-                    transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-                    child: SvgPicture.asset(
-                      'assets/svg/mail.svg',
-                      fit: BoxFit.scaleDown,
-                      width: 15,
-                      height: 12,
+                    //errorStyle: validateText,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    prefixIcon: Container(
+                      transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+                      child: SvgPicture.asset(
+                        'assets/svg/mail.svg',
+                        fit: BoxFit.scaleDown,
+                        width: 15,
+                        height: 12,
+                      ),
                     ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  hintText: 'Example@mail.com',
-                  //hintStyle: hintText
-                ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    hintText: 'Example@mail.com',
+                    hintStyle: TextStyle(color: Colors.grey[600])),
               ),
               SizedBox(
                 height: 25,
               ),
-              Text(
-                'Пароль',
-              ),
+              Text('Пароль', style: TextStyle(color: Colors.white)),
               SizedBox(
                 height: 15,
               ),
               TextFormField(
                 obscureText: true,
+                style: TextStyle(color: Colors.white),
                 onSaved: (input) => _regPassword = input!,
                 validator: (input) {
                   if (input == null) {
@@ -459,35 +489,36 @@ class _AuthFormState extends State<AuthForm> {
                   }
                 },
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  suffixIcon: InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset('assets/svg/eye.svg',
-                          width: 15, height: 15, fit: BoxFit.scaleDown)),
-                  prefixIcon: Container(
-                    transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-                    child: SvgPicture.asset(
-                      'assets/svg/key.svg',
-                      fit: BoxFit.scaleDown,
-                      width: 15,
-                      height: 12,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    suffixIcon: InkWell(
+                        onTap: () {},
+                        child: SvgPicture.asset('assets/svg/eye.svg',
+                            width: 15, height: 15, fit: BoxFit.scaleDown)),
+                    prefixIcon: Container(
+                      transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+                      child: SvgPicture.asset(
+                        'assets/svg/key.svg',
+                        fit: BoxFit.scaleDown,
+                        width: 15,
+                        height: 12,
+                      ),
                     ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  hintText: 'Введите пароль',
-                ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    hintText: 'Введите пароль',
+                    hintStyle: TextStyle(color: Colors.grey[600])),
               ),
               SizedBox(
                 height: 15,
               ),
               TextFormField(
                 obscureText: true,
+                style: TextStyle(color: Colors.white),
                 onSaved: (input) => _confirmPassword = input!,
                 validator: (input) {
                   if (input == null) {
@@ -501,36 +532,91 @@ class _AuthFormState extends State<AuthForm> {
                   }
                 },
                 decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-                  suffixIcon: InkWell(
-                      onTap: () {},
-                      child: SvgPicture.asset('assets/svg/eye.svg',
-                          width: 15, height: 15, fit: BoxFit.scaleDown)),
-                  prefixIcon: Container(
-                    transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
-                    child: SvgPicture.asset(
-                      'assets/svg/key.svg',
-                      fit: BoxFit.scaleDown,
-                      width: 15,
-                      height: 12,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+                    suffixIcon: InkWell(
+                        onTap: () {},
+                        child: SvgPicture.asset('assets/svg/eye.svg',
+                            width: 15, height: 15, fit: BoxFit.scaleDown)),
+                    prefixIcon: Container(
+                      transform: Matrix4.translationValues(-10.0, 0.0, 0.0),
+                      child: SvgPicture.asset(
+                        'assets/svg/key.svg',
+                        fit: BoxFit.scaleDown,
+                        width: 15,
+                        height: 12,
+                      ),
                     ),
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Color(0xFFC5CEE0)),
-                  ),
-                  hintText: 'Повторите пароль',
-                ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Color(0xFFC5CEE0)),
+                    ),
+                    hintText: 'Повторите пароль',
+                    hintStyle: TextStyle(color: Colors.grey[600])),
               ),
               SizedBox(
                 height: 25.0,
               ),
-              TextButton(
-                  onPressed: _validateRegisterInput,
-                  child: Text('Зарегистрироваться')),
+              SizedBox(
+                height: 25.0,
+              ),
+              Text.rich(TextSpan(
+                  text:
+                      'Нажимая кнопку "Зарегистрироваться" вы подтверждаете согласие с  ',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'Условиями пользования',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.purpleAccent[700],
+                          decoration: TextDecoration.underline,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            //_launchURL(AGREEMENT);
+                          }),
+                    TextSpan(
+                        text: ' и ',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Политикой конфиденциальности',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.purpleAccent[700],
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  //_launchURL(POLITICIANS);
+                                })
+                        ])
+                  ])),
+              Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                    color: Color.fromARGB(255, 249, 22, 112),
+                  ),
+                  margin: EdgeInsets.only(top: 20),
+                  height: 56,
+                  width: MediaQuery.of(context).size.width,
+                  child: TextButton(
+                      onPressed: _validateRegisterInput,
+                      child: Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Container(),
+                            ),
+                            Text('Зарегистрироваться',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ),
+                      ))),
               SizedBox(
                 height: 14,
               ),
@@ -541,17 +627,6 @@ class _AuthFormState extends State<AuthForm> {
                   'Забыли пароль?',
                 ),
               )),
-              SizedBox(
-                height: 25,
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 1,
-                color: Color(0xFFE7EBF2),
-              ),
-              SizedBox(
-                height: 20,
-              ),
             ]),
           ),
         ),
@@ -578,11 +653,11 @@ class _AuthFormState extends State<AuthForm> {
           return true;
         },
         child: Scaffold(
-            key: _scaffoldKey,
+            key: widget.key,
             backgroundColor: Color.fromARGB(255, 10, 13, 66),
             body: SingleChildScrollView(
               child: Container(
-                height: MediaQuery.of(context).size.height,
+                //height: MediaQuery.of(context).size.height - 50,
                 margin: EdgeInsets.only(left: 22, right: 22),
                 padding: EdgeInsets.only(bottom: 20),
                 child: Column(

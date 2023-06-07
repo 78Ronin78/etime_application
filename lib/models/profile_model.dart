@@ -3,22 +3,24 @@ class ProfileModel {
   String name; // Имя
   String surName; //фамилия
   String phone; // номер телефона
-  String gender; // Пол
-  String age; // Возрост
+  Gender? gender; // Пол
+  int age; // Возрост
 
   ProfileModel(
       {this.uid = '',
       this.name = '',
       this.surName = '',
       this.phone = '',
-      this.gender = '',
-      this.age = ''});
+      this.gender = Gender.man,
+      this.age = 0});
 
   factory ProfileModel.fromJson(Map json) => ProfileModel(
       uid: json['uid'] ?? null,
       name: json['name'] ?? null,
       surName: json['surname'] ?? null,
       phone: json['phone'] ?? null,
-      gender: json['gender'] ?? null,
+      gender: json['gender'] != null ? Gender.values[json['gender']] : null,
       age: json['age'] ?? null);
 }
+
+enum Gender { man, woman }

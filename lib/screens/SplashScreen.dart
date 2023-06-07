@@ -1,3 +1,4 @@
+import 'package:etime_application/helpers/size_config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -17,14 +18,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 10, 13, 66),
       body: Center(
-        child: Container(
-          child: Image.asset(
-            "assets/logo/applogo.png",
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            fit: BoxFit.cover,
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Image.asset(
+                "assets/logo/applogo.png",
+                height: 200.0.toAdaptive(context),
+                fit: BoxFit.cover,
+              ),
+            ),
+            CircularProgressIndicator(color: Color.fromARGB(255, 249, 22, 112)),
+          ],
         ),
       ),
     );
