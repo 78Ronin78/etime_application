@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 class NotificationModel {
-  String title;
+  String? title;
   String imagePath;
-  String description;
+  String? description;
   DateTime dateTime;
   bool isRead;
   String buttonTitle;

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:etime_application/helpers/config_color.dart';
+import 'package:etime_application/helpers/links.dart';
 import 'package:etime_application/helpers/size_config.dart';
 import 'package:etime_application/models/profile_model.dart';
 import 'package:etime_application/repository/firebase_auth.dart';
@@ -335,7 +336,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      //_launchURL(AGREEMENT);
+                                      _launchURL(AGREEMENT);
                                     }),
                               TextSpan(
                                   text: ' и ',
@@ -351,7 +352,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 TextDecoration.underline),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            //_launchURL(POLITICIANS);
+                                            _launchURL(POLITICIANS);
                                           })
                                   ])
                             ])),

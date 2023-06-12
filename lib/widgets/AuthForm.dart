@@ -1,3 +1,4 @@
+import 'package:etime_application/helpers/links.dart';
 import 'package:etime_application/helpers/size_config.dart';
 import 'package:etime_application/repository/firebase_auth.dart';
 import 'package:etime_application/screens/RegistrationScreen.dart';
@@ -155,9 +156,10 @@ class _AuthFormState extends State<AuthForm> {
     }
   }
 
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+  _launchURL(url) async {
+    if (await launchUrl(Uri.parse(url))) {
+      final Uri launchUri = Uri.parse(url);
+      await launchUrl(launchUri);
     } else {
       throw 'Could not launch $url';
     }
@@ -317,7 +319,7 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            //_launchURL(AGREEMENT);
+                            _launchURL(AGREEMENT);
                           }),
                     TextSpan(
                         text: ' и ',
@@ -331,7 +333,7 @@ class _AuthFormState extends State<AuthForm> {
                                   decoration: TextDecoration.underline),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  //_launchURL(POLITICIANS);
+                                  _launchURL(POLITICIANS);
                                 })
                         ])
                   ])),
@@ -365,18 +367,19 @@ class _AuthFormState extends State<AuthForm> {
                 height: 14,
               ),
               Center(
-                  child: TextButton(
-                onPressed: () {
-                  // Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //         builder: (context) => PasswordRecoveryScreen()));
-                },
-                child: Text(
-                  'Забыли пароль?',
-                  //style: title3.copyWith(fontSize: 16),
+                child: TextButton(
+                  onPressed: () {
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => PasswordRecoveryScreen()));
+                  },
+                  child: Text(
+                    'Забыли пароль?',
+                    //style: title3.copyWith(fontSize: 16),
+                  ),
                 ),
-              )),
+              ),
             ]),
           ),
         ),
@@ -576,7 +579,7 @@ class _AuthFormState extends State<AuthForm> {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            //_launchURL(AGREEMENT);
+                            _launchURL(AGREEMENT);
                           }),
                     TextSpan(
                         text: ' и ',
@@ -590,7 +593,7 @@ class _AuthFormState extends State<AuthForm> {
                                   decoration: TextDecoration.underline),
                               recognizer: TapGestureRecognizer()
                                 ..onTap = () {
-                                  //_launchURL(POLITICIANS);
+                                  _launchURL(POLITICIANS);
                                 })
                         ])
                   ])),
